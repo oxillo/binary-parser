@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
+    xmlns:bin="http://expath.org/ns/binary"
+    xmlns:map="http://www.w3.org/2005/xpath-functions/map"
+    xmlns:bp="urn://binary-parser"
+    xslt-version="3.0"
+    stylesheet="../src/binaryParser.xsl">
+    
+    
+    <x:scenario label="When processing a parsing context with 2 results">
+        <x:variable name="context" select="map{'data':bin:hex('04030201'),'config':map{},'results':(bin:hex('FFFE'),'a string')}"/>
+        
+        <x:scenario label="when calling bp:results()">
+            <x:call function="bp:results">
+                <x:param select="$context"/>
+            </x:call>
+            <x:expect label="it should consist of 2 items" test="$x:result=>count()" select="2"/>
+            <x:expect label="the 2 items should be (0xFFFE,'a string') " select="(bin:hex('FFFE'),'a string')"/>
+        </x:scenario>
+        
+        <x:scenario label="the last result">
+            <x:call function="bp:result">
+                <x:param select="$context"/>
+                <x:param select="1"/>
+            </x:call>
+            <x:expect label="should be 'a string'" select="'a string'"/>
+        </x:scenario>
+        
+        <x:scenario label="the previous result">
+            <x:call function="bp:result">
+                <x:param select="$context"/>
+                <x:param select="2"/>
+            </x:call>
+            <x:expect label="should be 0xFFFE" select="bin:hex('FFFE')"/>
+        </x:scenario>
+        
+        <x:scenario label="when adding a result with bp:push">
+            <x:call function="bp:push">
+                <x:param select="$context"/>
+                <x:param select="[2,3,4]"/>
+            </x:call>
+            <x:expect label="the results should now consist of 3 items" test="$x:result=>bp:results()=>count()" select="3"/>
+            <x:expect label="the last result should now be the pushed value" test="$x:result=>bp:result(1)" select="[2,3,4]"/>
+        </x:scenario>
+        
+        
+        <x:scenario label="when popping 2 values after pushing 1 value">
+            <x:call function="bp:pop">
+                <x:param select="$context=>bp:push(5)"/>
+                <x:param select="2"/>
+            </x:call>
+            <x:expect label="the results should now consist of a single item" test="$x:result=>bp:results()=>count()" select="1"/>
+            <x:expect label="the last result should now be 0xFFFE" test="$x:result=>bp:result(1)" select="bin:hex('FFFE')"/>
+        </x:scenario>
+        
+        <x:scenario label="when all values are popped">
+            <x:call function="bp:pop">
+                <x:param select="$context"/>
+                <x:param select="2"/>
+            </x:call>
+            <x:expect label="the results pile should now be empty" test="$x:result=>bp:results()=>count()" select="0"/>
+            <x:expect label="the result() should return the empty sequence ()" test="$x:result=>bp:result()" select="()"/>
+        </x:scenario>
+        
+    </x:scenario>
+    
+    
+    
+    
+    
+</x:description>
