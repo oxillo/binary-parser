@@ -1,0 +1,6 @@
+#Ignore XSpec result files
+tests/xspec/*
+tests/*-report.html
+
+#Ignore local installations (Saxon, xspec,..)
+install/*
