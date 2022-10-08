@@ -14,6 +14,9 @@
         </options>
     </meta>
     <projectTree name="binaryParser.xpr">
+        <folder masterFiles="true" name="Main Files">
+            <file name="src/binaryParser.xsl"/>
+        </folder>
         <folder path="."/>
     </projectTree>
 </project>
