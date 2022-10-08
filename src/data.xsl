@@ -4,6 +4,7 @@
     xmlns:xs="http://www.w3.org/2001/XMLSchema"
     xmlns:xd="http://www.oxygenxml.com/ns/doc/xsl"
     xmlns:bin="http://expath.org/ns/binary"
+    xmlns:file="http://expath.org/ns/file"
     xmlns:map="http://www.w3.org/2005/xpath-functions/map"
     xmlns:bp="urn://binary-parser"
     exclude-result-prefixes="xs xd bin map bp"
@@ -33,7 +34,7 @@
         <xd:param name="count">Number of octets to read</xd:param>
         <xd:return>Read octets are removed from data and pushed to results</xd:return>
     </xd:doc>
-    <xsl:function name="bp:read" as="map(xs:string,item()*)">
+    <xsl:function name="bp:read" as="map(xs:string,item()*)"  visibility="public">
         <xsl:param name="parsing-context" as="map(xs:string,item()*)"/>
         <xsl:param name="count" as="xs:integer"/>
         
@@ -58,5 +59,22 @@
         <xsl:param name="parsing-context" as="map(xs:string,item()*)"/>
         
         <xsl:sequence select="bin:length($parsing-context?data) gt 0"/>
+    </xsl:function>
+    
+    
+    
+    <xsl:function name="bp:from-data" as="map(xs:string,item()*)" visibility="public">
+        <xsl:param name="data" as="xs:base64Binary"/>
+        
+        <xsl:sequence select="map{
+            'data':$data,
+            'config':map{},
+            'results':()}"/>
+    </xsl:function>
+    
+    <xsl:function name="bp:from-file" as="map(xs:string,item()*)" visibility="public">
+        <xsl:param name="file" as="xs:string"/>
+        
+        <xsl:sequence select="file:read-binary($file)=>bp:from-data()"/>
     </xsl:function>
 </xsl:stylesheet>

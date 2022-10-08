@@ -32,7 +32,7 @@
         <xd:param name="parsing-context">Parsing context</xd:param>
         <xd:return>A sequence of items </xd:return>
     </xd:doc>
-    <xsl:function name="bp:results" as="item()*">
+    <xsl:function name="bp:results" as="item()*" visibility="public">
         <xsl:param name="parsing-context" as="map(xs:string,item()*)"/>
         
         <xsl:sequence select="$parsing-context?results"/>
@@ -50,7 +50,7 @@
         <xd:return>The result in the parsing context or the empty sequence if no result
         </xd:return>
     </xd:doc>
-    <xsl:function name="bp:result" as="item()?">
+    <xsl:function name="bp:result" as="item()?" visibility="public">
         <xsl:param name="parsing-context" as="map(xs:string,item()*)"/>
         <xsl:param name="index" as="xs:integer"/>
         
@@ -66,7 +66,7 @@
         <xd:param name="parsing-context">Parsing context</xd:param>
         <xd:return>The last result in the parsing context or the empty sequence if no result</xd:return>
     </xd:doc>
-    <xsl:function name="bp:result" as="item()?">
+    <xsl:function name="bp:result" as="item()?" visibility="public">
         <xsl:param name="parsing-context" as="map(xs:string,item()*)"/>
         
         <!-- return the last result -->
@@ -83,7 +83,7 @@
         <xd:param name="value">Result to add</xd:param>
         <xd:return>Updated Parsing context</xd:return>
     </xd:doc>
-    <xsl:function name="bp:push" as="map(xs:string,item()*)">
+    <xsl:function name="bp:push" as="map(xs:string,item()*)" visibility="public">
         <xsl:param name="parsing-context" as="map(xs:string,item()*)"/>
         <xsl:param name="value" as="item()"/>
         
@@ -101,7 +101,7 @@
         <xd:return>Updated Parsing context</xd:return>
     </xd:doc>
     
-    <xsl:function name="bp:pop" as="map(xs:string,item()*)">
+    <xsl:function name="bp:pop" as="map(xs:string,item()*)" visibility="public">
         <xsl:param name="parsing-context" as="map(xs:string,item()*)"/>
         <xsl:param name="count" as="xs:integer"/>
         
@@ -124,7 +124,7 @@
         <xd:param name="parsing-context">Parsing context</xd:param>
         <xd:return>Updated Parsing context</xd:return>
     </xd:doc>
-    <xsl:function name="bp:pop" as="map(xs:string,item()*)">
+    <xsl:function name="bp:pop" as="map(xs:string,item()*)" visibility="public">
         <xsl:param name="parsing-context" as="map(xs:string,item()*)"/>
         
         <xsl:sequence select="bp:pop($parsing-context,1)"/>

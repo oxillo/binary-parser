@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:package name="binary-parser" package-version="1.0" 
+<xsl:package name="binary-parser"
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xmlns:xs="http://www.w3.org/2001/XMLSchema"
     xmlns:xd="http://www.oxygenxml.com/ns/doc/xsl"
@@ -24,9 +24,9 @@
     </xd:doc>
     
     
-    <xsl:include href="data.xsl"/>
-    <xsl:include href="config.xsl"/>
-    <xsl:include href="results.xsl"/>
+    <xsl:include href="./data.xsl"/>
+    <xsl:include href="./config.xsl"/>
+    <xsl:include href="./results.xsl"/>
     
     
     

@@ -5,35 +5,22 @@
     xmlns:bp="urn://binary-parser"
     xslt-version="3.0"
     run-as="external"
-    stylesheet="../src/binaryParser.xsl">
+    expand-text="true"
+    stylesheet="testpackage.xsl">
     
+    <x:variable name="x:saxon-config" href="../src/saxon.config"/>
     
-    
-    <x:import href="results.xspec"/>
-    <x:import href="data.xspec"/>
-    <x:import href="config.xspec"/>
-    
-    <x:scenario label="When applyFn() is called">
-        <x:variable name="context" select="map{'data': bin:hex('04030201'), 'config': map{}, 'results': ()}"/>
-        <x:variable name="fn" select="function($a) {concat($a,' test')}"/>
-        <x:scenario label="on a parsing context with no result items">
-            <x:call function="bp:applyFn">
-                <x:param select="$context"/>
-                <x:param select="$fn"/>
-            </x:call>
-            <x:expect label="it should leave the parsing context unchange" select="$context"/>
-        </x:scenario>
-        
-        <x:scenario label="on a parsing context with multiple result items">
-            <x:call function="bp:applyFn">
-                <x:param select="$context=>bp:push(5.8)=>bp:push(4)=>bp:push('string')"/>
-                <x:param select="$fn"/>
-            </x:call>
-            <x:expect label="the results should consist of 3 items" test="$x:result=>bp:results()=>count()" select="3"/>
-            <x:expect label="the last result should be 'string test'" test="$x:result=>bp:result()" select="'string test'"/>
-            <x:expect label="the others result should be unmodified" test="$x:result=>bp:result(2)" select="4"/>
-            <x:expect label="the others result should be unmodified" test="$x:result=>bp:result(3)" select="5.8"/>
-        </x:scenario>
+    <x:scenario label="demonstrate binary parser on PNG file header">
+        <x:call template="png2xml"/>
+        <x:expect label="fields should be as expected">
+            <header>
+                <field pos="1" value="{bin:hex('89')}"/>                 
+                <field pos="2" value="PNG"/>
+                <field pos="3" value="{bin:hex('0D0A')}"/>
+                <field pos="4" value="{bin:hex('1A')}"/>
+                <field pos="5" value="{bin:hex('0A')}"/>
+            </header>
+        </x:expect>
     </x:scenario>
     
     
