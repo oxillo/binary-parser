@@ -4,7 +4,7 @@
     xmlns:map="http://www.w3.org/2005/xpath-functions/map"
     xmlns:bp="urn://binary-parser"
     xslt-version="3.0"
-    stylesheet="../src/binaryParser.xsl">
+    stylesheet="../src/results.xsl">
     
     
     <x:scenario label="When processing a parsing context with 2 results">

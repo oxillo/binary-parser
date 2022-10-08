@@ -4,53 +4,14 @@
     xmlns:map="http://www.w3.org/2005/xpath-functions/map"
     xmlns:bp="urn://binary-parser"
     xslt-version="3.0"
+    run-as="external"
     stylesheet="../src/binaryParser.xsl">
     
     
-    <x:scenario label="When read() is called">
-        <x:scenario label="to get the next octet from the parsing context,">
-            <x:call function="bp:read">
-                <x:param select="map{'data': bin:hex('04030201'), 'config': map{}, 'results': ()}"/>
-                <x:param select="1"/>
-            </x:call>
-            <x:expect label="the results should consist of a single item" test="$x:result=>bp:results()=>count()" select="1"/>
-            <x:expect label="the only result should be 0x04" test="$x:result=>bp:result()" select="bin:hex('04')"/>
-            <x:expect label="the data should be truncated by 1 byte" test="$x:result=>map:get('data')" select="bin:hex('030201')"/>
-        </x:scenario>
-        
-        <x:scenario label="to get the next octet from the parsing context with 2 existing results,">
-            <x:call function="bp:read">
-                <x:param select="map{'data':bin:hex('04030201'),'config':map{},'results':(bin:hex('FFFE'),'a string')}"/>
-                <x:param select="1"/>
-            </x:call>
-            <x:expect label="the results should consist of 3 items" test="$x:result=>bp:results()=>count()" select="3"/>
-            <x:expect label="the last result should be 0x04" test="$x:result=>bp:result()" select="bin:hex('04')"/>
-            <x:expect label="the data should be truncated by 1 byte" test="$x:result=>map:get('data')" select="bin:hex('030201')"/>
-        </x:scenario>
-        
-        <x:scenario label="on its own result">
-            <x:call function="bp:read">
-                <x:param select="map{'data':bin:hex('04030201'),'config':map{},'results':(bin:hex('FFFE'),'a string')}=>bp:read(1)"/>
-                <x:param select="2"/>
-            </x:call>
-            <x:expect label="the results should consist of 4 items" test="$x:result=>bp:results()=>count()" select="4"/>
-            <x:expect label="the last result should be 0x0302" test="$x:result=>bp:result(1)" select="bin:hex('0302')"/>
-            <x:expect label="the previous result should be 0x04" test="$x:result=>bp:result(2)" select="bin:hex('04')"/>
-            <x:expect label="the data should be truncated by 3 bytes" test="$x:result=>map:get('data')" select="bin:hex('01')"/>
-        </x:scenario>
-        
-        <x:scenario label="to consume all octets">
-            <x:call function="bp:read">
-                <x:param select="map{'data':bin:hex('04030201'),'config':map{},'results':(bin:hex('FFFE'),'a string')}"/>
-                <x:param select="4"/>
-            </x:call>
-            <x:expect label="the results should consist of 3 items" test="$x:result=>bp:results()=>count()" select="3"/>
-            <x:expect label="the last result should be 0x04030201" test="$x:result=>bp:result(1)" select="bin:hex('04030201')"/>
-            <x:expect label="all data should be consumed" test="$x:result=>map:get('data')" select="bin:hex('')"/>
-        </x:scenario>    
-    </x:scenario>
     
     <x:import href="results.xspec"/>
+    <x:import href="data.xspec"/>
+    <x:import href="config.xspec"/>
     
     <x:scenario label="When applyFn() is called">
         <x:variable name="context" select="map{'data': bin:hex('04030201'), 'config': map{}, 'results': ()}"/>

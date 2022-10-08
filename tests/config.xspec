@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:bin="http://expath.org/ns/binary"
+    xmlns:map="http://www.w3.org/2005/xpath-functions/map"
+    xmlns:bp="urn://binary-parser"
+    xslt-version="3.0"
+    stylesheet="../src/config.xsl">
+    
+    <x:scenario label="The parsing-context has a configuration">
+        <x:scenario label="that can be retrieved with bp:config-get">
+            <x:variable name="context" select="map{'data':bin:hex('04030201'),'config':map{'le':true()},'results':(bin:hex('FFFE'),'a string')}"/>
+            <x:call function="bp:config-get">
+                <x:param select="$context"/>
+            </x:call>
+            <x:expect label="the returned configuration should be a map" test="$x:result instance of map(xs:string,item()*)"/>
+            <x:expect label="the returned configuration should have a single 'le' property" test="map:keys($x:result)" select="('le')"/>
+        </x:scenario>
+        
+        <x:scenario label="that can be modified with bp:config-set">
+            <x:variable name="context" select="map{'data':bin:hex('04030201'),'config':map{'le':true()},'results':(bin:hex('FFFE'),'a string')}"/>
+            <x:call function="bp:config-set">
+                <x:param select="$context"/>
+                <x:param select="map{'le':false(),'version':3.0,'items':()}"/>
+            </x:call>
+            <x:expect label="the data of the parsing context should not be modified" test="$x:result?data" select="bin:hex('04030201')"/>
+            <x:expect label="the results of the parsing context should not be modified" test="$x:result?results" select="(bin:hex('FFFE'),'a string')"/>
+            <x:expect label="the configuration of the parsing context should have a 3 properties" test="$x:result=>bp:config-get()=>map:keys()=>sort()" select="('items','le','version')"/>
+        </x:scenario>
+        
+    </x:scenario>
+    
+    
+</x:description>
