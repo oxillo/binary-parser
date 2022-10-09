@@ -55,7 +55,7 @@
         <xd:param name="parsing-context">Parsing context</xd:param>
         <xd:return>true is parser still has data</xd:return>
     </xd:doc>
-    <xsl:function name="bp:hasdata" as="xs:boolean">
+    <xsl:function name="bp:hasdata" as="xs:boolean" visibility="public">
         <xsl:param name="parsing-context" as="map(xs:string,item()*)"/>
         
         <xsl:sequence select="bin:length($parsing-context?data) gt 0"/>
