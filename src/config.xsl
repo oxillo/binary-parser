@@ -32,7 +32,7 @@
         <xd:param name="parsing-context">Parsing context</xd:param>
         <xd:return>A map of configuration properties</xd:return>
     </xd:doc>
-    <xsl:function name="bp:config-get" as="map(xs:string,item()*)">
+    <xsl:function name="bp:config-get" as="map(xs:string,item()*)" visibility="public">
         <xsl:param name="parsing-context" as="map(xs:string,item()*)"/>
         
         <xsl:sequence select="$parsing-context?config"/>
@@ -48,7 +48,7 @@
         <xd:param name="new-configuration">The new configuration of the parser</xd:param>
         <xd:return>A map of configuration properties</xd:return>
     </xd:doc>
-    <xsl:function name="bp:config-set" as="map(xs:string,item()*)">
+    <xsl:function name="bp:config-set" as="map(xs:string,item()*)" visibility="public">
         <xsl:param name="parsing-context" as="map(xs:string,item()*)"/>
         <xsl:param name="new-configuration" as="map(xs:string,item()*)"/>
         
