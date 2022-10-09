@@ -8,7 +8,7 @@
     expand-text="true"
     stylesheet="testpackage.xsl">
     
-    <x:variable name="x:saxon-config" href="../src/saxon.config"/>
+    <x:variable name="x:saxon-config" href="../bin/saxon.config"/>
     
     <x:scenario label="demonstrate binary parser on PNG file header">
         <x:call template="png2xml"/>
