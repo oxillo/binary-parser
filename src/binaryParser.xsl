@@ -39,7 +39,7 @@
         <xd:param name="fn">The function to apply on the last result</xd:param>
         <xd:return>Updated Parsing context</xd:return>
     </xd:doc>
-    <xsl:function name="bp:applyFn" as="map(xs:string,item()*)">
+    <xsl:function name="bp:applyFn" as="map(xs:string,item()*)" visibility="public">
         <xsl:param name="parsing-context" as="map(xs:string,item()*)"/>
         <xsl:param name="fn" as="function(item()) as item()"/>
         
