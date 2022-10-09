@@ -9,6 +9,18 @@
                         <String>enable.project.master.files.support</String>
                         <Boolean>true</Boolean>
                     </entry>
+                    <entry>
+                        <String>key.xslt.saxon8.option.pane</String>
+                        <Boolean>true</Boolean>
+                    </entry>
+                    <entry>
+                        <String>saxon.latest.config.file</String>
+                        <String>${pdu}/bin/saxon.config</String>
+                    </entry>
+                    <entry>
+                        <String>saxon.latest.use.config.file</String>
+                        <Boolean>true</Boolean>
+                    </entry>
                 </serializableOrderedMap>
             </serialized>
         </options>
